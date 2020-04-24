@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
 
         // Combine to create orbit
         offset = camAngleHorizontal * camAngleVertical * offset;
-        transform.position = player.transform.position + offset
+        transform.position = player.transform.position + offset;
 
         transform.LookAt(player.transform);
 
