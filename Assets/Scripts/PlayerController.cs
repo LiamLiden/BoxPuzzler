@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ public class PlayerController : MonoBehaviour
     public int stepsForRotate;
     public float timeBetweenSteps;
     public GameObject center;
+    public GameManager gm;
 
     private Rigidbody myRB;
+    private List<GameObject> collidingObjects = new List<GameObject>();
     private bool moving;
-    private bool upright;
-    private bool horizontal;
+    public bool upright;
+    public bool horizontal;
 
     // Start is called before the first frame update
     void Start()
@@ -25,76 +28,108 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (moving == false)
+        if (moving == false && collidingObjects.Count != 0)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
-                StartCoroutine(Move("Left", Vector3.left));
+                StartCoroutine(Move("Left", -center.transform.right));
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
-                StartCoroutine(Move("Right", Vector3.right));
+                StartCoroutine(Move("Right", center.transform.right));
             }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
-                StartCoroutine(Move("Down", Vector3.back));
+                StartCoroutine(Move("Down", -center.transform.forward));
             }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
-                StartCoroutine(Move("Up", Vector3.forward));
+                StartCoroutine(Move("Up", center.transform.forward));
             }
+
+            if (upright)
+                center.transform.position = transform.position + (center.transform.up * -.5f);
+            else
+                center.transform.position = transform.position;
         }
     }
 
     private IEnumerator Move(string direction, Vector3 axis)
     {
         moving = true;
+
         for (int i = 0; i < (90 / stepsForRotate); i++)
         {
             transform.RotateAround(center.transform.Find(direction).position, axis, stepsForRotate);
             yield return new WaitForSeconds(timeBetweenSteps);
         }
 
+        SetPivots(direction);
+        moving = false;
+    }
+
+    private void SetPivots(string direction)
+    {
         // Set new pivot locations
         if (!upright)
         {
             if (!horizontal && (direction == "Up" || direction == "Down"))
             {
-                center.transform.position = transform.position + new Vector3(0, -.5f, 0);
-                center.transform.Find("Down").position += new Vector3(-.5f, 0, 0);
-                center.transform.Find("Up").position += new Vector3(.5f, 0, 0);
+                center.transform.Find("Down").position += center.transform.right * -.5f;
+                center.transform.Find("Up").position += center.transform.right * .5f;
                 upright = true;
             }
             else if (horizontal && (direction == "Right" || direction == "Left"))
             {
-                center.transform.position = transform.position + new Vector3(0, -.5f, 0);
-                center.transform.Find("Left").position += new Vector3(0, 0, .5f);
-                center.transform.Find("Right").position += new Vector3(0, 0, -.5f);
+                center.transform.Find("Left").position += center.transform.forward * .5f;
+                center.transform.Find("Right").position += center.transform.forward * -.5f;
                 upright = true;
-            }
-            else
-            {
-                center.transform.position = transform.position;
             }
         }
         else
         {
             if (direction == "Up" || direction == "Down")
             {
-                center.transform.position = transform.position;
-                center.transform.Find("Down").position += new Vector3(.5f, 0, 0);
-                center.transform.Find("Up").position += new Vector3(-.5f, 0, 0);
+                center.transform.Find("Down").position += center.transform.right * .5f;
+                center.transform.Find("Up").position += center.transform.right * -.5f;
                 horizontal = false;
             }
             else
             {
-                center.transform.position = transform.position;
-                center.transform.Find("Left").position += new Vector3(0, 0, -.5f);
-                center.transform.Find("Right").position += new Vector3(0, 0, .5f);
+                center.transform.Find("Left").position += center.transform.forward * -.5f;
+                center.transform.Find("Right").position += center.transform.forward * .5f;
                 horizontal = true;
             }
             upright = false;
         }
-        moving = false;
+    }
+
+    public void GravityChange(Quaternion newRotation, string direction)
+    {
+        center.transform.rotation = newRotation;
+        SetPivots(direction);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ActionTile"))
+        {
+            collision.gameObject.GetComponent<ActionTile>().Action();
+        }
+
+        collidingObjects.Add(collision.gameObject);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        collidingObjects.Remove(collision.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Restart"))
+            gm.RestartLevel();
+        else if (other.CompareTag("End"))
+            gm.NextLevel();
     }
 }
