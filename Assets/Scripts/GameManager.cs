@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +12,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     public GameObject camera;
+    public Text timeText;
+    public Text moveText;
+    public Text bestText;
+    public GameObject tutorial;
+    public float defaultTime;
+    public int defaultMoves;
+
+    private float time;
+    private int moves;
 
     // Start is called before the first frame update
     void Start()
@@ -20,19 +31,45 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
 
+        time = 0;
+        // Reset physics and timescale
+        Physics.gravity = new Vector3(0, -9.81f, 0);
+        Time.timeScale = 1;
+
+        // Set best time based on prefs
+        float bestTime = PlayerPrefs.GetFloat("time" + SceneManager.GetActiveScene().name, defaultTime);
+        int bestMoves = PlayerPrefs.GetInt("moves" + SceneManager.GetActiveScene().name, defaultMoves);
+        bestText.text = "Best Time and Moves\n Time: " + TimeSpan.FromSeconds(bestTime).ToString(@"mm\:ss\:ff") + " Moves: " + bestMoves;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        time += Time.deltaTime;
+        timeText.text = "Time: " + TimeSpan.FromSeconds(time).ToString(@"mm\:ss\:ff");
+        moveText.text = "Moves: " + moves;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ClosePauseMenu();
+            TogglePauseMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CloseTutorial();
         }
     }
 
     public void NextLevel()
     {
+        // Save data if new record
+        if (time < PlayerPrefs.GetFloat("time" + SceneManager.GetActiveScene().name, defaultTime))
+        {
+            PlayerPrefs.SetFloat("time" + SceneManager.GetActiveScene().name, time);
+            PlayerPrefs.SetInt("moves" + SceneManager.GetActiveScene().name, moves);
+        }
+        
+        // Load new level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -46,10 +83,25 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void ClosePauseMenu()
+    public void TogglePauseMenu()
     {
+        if (Time.timeScale == 1)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
         var cam = camera.GetComponent<CameraController>();
         cam.enabled = !cam.enabled;
         pauseMenu.SetActive(!pauseMenu.activeSelf);
+    }
+
+    private void CloseTutorial()
+    {
+        if (tutorial != null)
+            tutorial.SetActive(false);
+    }
+
+    public void IncrementMoves()
+    {
+        moves++;
     }
 }

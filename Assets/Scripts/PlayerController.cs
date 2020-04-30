@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
             transform.RotateAround(center.transform.Find(direction).position, axis, stepsForRotate);
             yield return new WaitForSeconds(timeBetweenSteps);
         }
-
+        gm.IncrementMoves();
         SetPivots(direction);
         moving = false;
     }

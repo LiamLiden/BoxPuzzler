@@ -95,7 +95,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!65 &1623622671270420999
 BoxCollider:
@@ -125,3 +125,6 @@ MonoBehaviour:
   stepsForRotate: 9
   timeBetweenSteps: 0.01
   center: {fileID: 0}
+  gm: {fileID: 0}
+  upright: 0
+  horizontal: 0
