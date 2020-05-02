@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
         int bestMoves = PlayerPrefs.GetInt("moves" + SceneManager.GetActiveScene().name, defaultMoves);
         bestText.text = "Best Time and Moves\n Time: " + TimeSpan.FromSeconds(bestTime).ToString(@"mm\:ss\:ff") + " Moves: " + bestMoves;
 
+        // Lock cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -98,16 +101,22 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void TogglePauseMenu()
     {
+        // Freeze camera
+        var cam = camera.GetComponent<CameraController>();
+        cam.enabled = !cam.enabled;
+        // Toggle cursor
+        Cursor.visible = !Cursor.visible;
+        if (Cursor.lockState == CursorLockMode.Locked)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
+        // Toggle menu
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
         // Pause time
         if (Time.timeScale == 1)
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
-        // Freeze camera
-        var cam = camera.GetComponent<CameraController>();
-        cam.enabled = !cam.enabled;
-        // Enable menu
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
     private void CloseTutorial()

@@ -16,4 +16,9 @@ public class MainMenuController : MonoBehaviour
     {
         levelSelectPanel.SetActive(!levelSelectPanel.activeSelf);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

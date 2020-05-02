@@ -13,7 +13,6 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         offset = player.transform.position + cameraOffset;
     }
 
