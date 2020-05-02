@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update moves and time text
         time += Time.deltaTime;
         timeText.text = "Time: " + TimeSpan.FromSeconds(time).ToString(@"mm\:ss\:ff");
         moveText.text = "Moves: " + moves;
@@ -60,6 +61,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads next level.
+    /// </summary>
     public void NextLevel()
     {
         // Save data if new record
@@ -73,24 +77,36 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    /// <summary>
+    /// Restarts current level.
+    /// </summary>
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /// <summary>
+    /// Loads main menu.
+    /// </summary>
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
+    /// <summary>
+    /// Toggles the pause menu.
+    /// </summary>
     public void TogglePauseMenu()
     {
+        // Pause time
         if (Time.timeScale == 1)
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
+        // Freeze camera
         var cam = camera.GetComponent<CameraController>();
         cam.enabled = !cam.enabled;
+        // Enable menu
         pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
