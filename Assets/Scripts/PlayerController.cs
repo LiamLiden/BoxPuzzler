@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Movement
         if (moving == false && collidingObjects.Count != 0)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Move("Up", center.transform.forward));
             }
 
+            // Adjust center location depending on whether player is upright or not
             if (upright)
                 center.transform.position = transform.position + (center.transform.up * -.5f);
             else
@@ -55,6 +57,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Causes player to rotate around a point determined by direction and around axis.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="axis"></param>
+    /// <returns></returns>
     private IEnumerator Move(string direction, Vector3 axis)
     {
         moving = true;
@@ -69,6 +77,10 @@ public class PlayerController : MonoBehaviour
         moving = false;
     }
 
+    /// <summary>
+    /// Resets the position of pivot points used by Move function.
+    /// </summary>
+    /// <param name="direction"></param>
     private void SetPivots(string direction)
     {
         // Set new pivot locations
@@ -105,6 +117,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Performs necessary transform updates during gravity changes.
+    /// </summary>
+    /// <param name="newRotation"></param>
+    /// <param name="direction"></param>
     public void GravityChange(Quaternion newRotation, string direction)
     {
         center.transform.rotation = newRotation;
