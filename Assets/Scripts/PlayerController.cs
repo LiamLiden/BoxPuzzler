@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     public GameObject center;
     public GameManager gm;
 
-    private Rigidbody myRB;
+    [HideInInspector]
+    public Rigidbody myRB;
     private List<GameObject> collidingObjects = new List<GameObject>();
     private bool moving;
     public bool upright;
