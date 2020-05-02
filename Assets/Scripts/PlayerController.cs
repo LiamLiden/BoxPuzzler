@@ -54,6 +54,12 @@ public class PlayerController : MonoBehaviour
                 center.transform.position = transform.position + (center.transform.up * -.5f);
             else
                 center.transform.position = transform.position;
+
+            // Round off movement to the nearest half to make it more precise
+            float x = (float)Math.Round(transform.position.x, 1);
+            float y = (float)Math.Round(transform.position.y, 1);
+            float z = (float)Math.Round(transform.position.z, 1);
+            transform.position = new Vector3(x, y, z);
         }
     }
 
