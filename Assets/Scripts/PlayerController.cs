@@ -55,10 +55,10 @@ public class PlayerController : MonoBehaviour
             else
                 center.transform.position = transform.position;
 
-            // Round off movement to the nearest half to make it more precise
-            float x = (float)Math.Round(transform.position.x, 1);
-            float y = (float)Math.Round(transform.position.y, 1);
-            float z = (float)Math.Round(transform.position.z, 1);
+            // Round off movement to make it more precise
+            float x = (float)Math.Round(transform.position.x, 2);
+            float y = (float)Math.Round(transform.position.y, 2);
+            float z = (float)Math.Round(transform.position.z, 2);
             transform.position = new Vector3(x, y, z);
         }
     }
@@ -131,7 +131,8 @@ public class PlayerController : MonoBehaviour
     public void GravityChange(Quaternion newRotation, string direction)
     {
         center.transform.rotation = newRotation;
-        SetPivots(direction);
+        if (direction != "")
+            SetPivots(direction);
     }
 
     private void OnCollisionEnter(Collision collision)

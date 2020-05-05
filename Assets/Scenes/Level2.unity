@@ -1383,6 +1383,16 @@ PrefabInstance:
       propertyPath: newGravity.z
       value: 9.81
       objectReference: {fileID: 0}
+    - target: {fileID: 9141603675689295356, guid: 893319d1f6e0ebd4780aa2eb6164e292,
+        type: 3}
+      propertyPath: newRotation.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9141603675689295356, guid: 893319d1f6e0ebd4780aa2eb6164e292,
+        type: 3}
+      propertyPath: pivotDirection
+      value: Right
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 893319d1f6e0ebd4780aa2eb6164e292, type: 3}
 --- !u!1001 &8280160591513136502

@@ -5,13 +5,12 @@ using UnityEngine;
 public class GravityTile : ActionTile
 {
     public Vector3 newGravity;
+    public Vector3 newRotation;
+    public string pivotDirection;
 
     public override void Action()
     {
         Physics.gravity = newGravity;
-        if (newGravity.z > 0)
-        {
-            pc.GravityChange(Quaternion.Euler(-90, 0, 0), "Right");
-        }
+        pc.GravityChange(Quaternion.Euler(newRotation), pivotDirection);
     }
 }
