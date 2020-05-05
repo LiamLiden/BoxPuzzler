@@ -1965,6 +1965,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1284041981620796394, guid: e92b9636dee98784e8ef2c2764c605dd,
+        type: 3}
+      propertyPath: m_CustomSkybox
+      value: 
+      objectReference: {fileID: 2100000, guid: f531e09e2ad2fb440b4eed7605863143, type: 2}
     - target: {fileID: 6950605666362624114, guid: e92b9636dee98784e8ef2c2764c605dd,
         type: 3}
       propertyPath: tutorial
