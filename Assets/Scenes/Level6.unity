@@ -1975,6 +1975,16 @@ PrefabInstance:
       propertyPath: tutorial
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6950605666362624114, guid: e92b9636dee98784e8ef2c2764c605dd,
+        type: 3}
+      propertyPath: defaultMoves
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950605666362624114, guid: e92b9636dee98784e8ef2c2764c605dd,
+        type: 3}
+      propertyPath: defaultTime
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6950605666524219268, guid: e92b9636dee98784e8ef2c2764c605dd,
         type: 3}
       propertyPath: m_Name
