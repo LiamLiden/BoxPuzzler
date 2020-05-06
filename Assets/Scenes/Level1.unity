@@ -583,15 +583,15 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Welcome to REDACTED! To control the box, use the arrow or WASD keys. If
-    you fall off the level, you will need to restart. Try to get to the green exits
-    to progress!
+  m_Text: Welcome to Boxer! To control the box, use the arrow or WASD keys. If you
+    fall off the level, you will need to restart. Try to get to the green exits to
+    progress!
 --- !u!222 &1438181573
 CanvasRenderer:
   m_ObjectHideFlags: 0

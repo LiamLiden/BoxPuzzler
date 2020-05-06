@@ -129,4 +129,9 @@ public class GameManager : MonoBehaviour
     {
         moves++;
     }
+
+    public void MuteButton()
+    {
+        AudioController.instance.ToggleMute();
+    }
 }
