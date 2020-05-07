@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "BoxPuzzler",
+"productVersion": "0.1",
+"dataUrl": "FinalProject_build.data.unityweb",
+"wasmCodeUrl": "FinalProject_build.wasm.code.unityweb",
+"wasmFrameworkUrl": "FinalProject_build.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.2.17f1"
+}
